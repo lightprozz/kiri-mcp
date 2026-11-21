@@ -167,3 +167,16 @@ The macOS tests skip on Linux and the Linux tests skip on macOS.
 They never touch `/Applications`, never reach the network, and never
 leave a file behind. The round-trip with the official `mcp` client
 skips when that package is not installed (`pip install mcp`).
+
+### The live release check
+
+```bash
+python3 tests/check-live-release.py
+```
+
+It reads Kiri's real release files (the Mac feeds, `SHA256SUMS-linux`, the
+GitHub release's `SHA256SUMS`), downloads three Linux packages, and fails
+when they no longer have the shape this server reads, or when the sources
+disagree on the latest version. GitHub Actions runs it every day
+(`.github/workflows/live-release.yml`), so a change on Kiri's side shows
+up as a failed run before an install breaks.
